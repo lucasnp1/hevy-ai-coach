@@ -3,16 +3,16 @@ main = "src/index.ts"
 compatibility_date = "2025-04-01"
 
 kv_namespaces = [
-  { binding = "COACH_KV", id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID" }
+  { binding = "COACH_KV", id = "3a37196744014eb8a702e4a130557844" }
 ]
 
 [vars]
 # Your numeric Telegram user ID (from @userinfobot, or read off getUpdates).
 # The privacy gate: only this user can talk to the bot.
-ALLOWED_TELEGRAM_USER_ID = "0"
+ALLOWED_TELEGRAM_USER_ID = "1108208600"
 # The public repo, "owner/name" — the Worker fires a repository_dispatch here
 # to run the chat workflow.
-GITHUB_REPO = "your-username/hevy-ai-coach"
+GITHUB_REPO = "lucasnp1/hevy-ai-coach"
 
 # Worker secrets (set with `npx wrangler secret put <NAME>`, never in this file):
 #   TELEGRAM_WEBHOOK_SECRET  openssl rand -hex 32 (same value you give setWebhook)
