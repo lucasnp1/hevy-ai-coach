@@ -21,12 +21,22 @@ export async function getState(key, fallback = null) {
     if (res.status === 404) return fallback;
     if (!res.ok) throw new Error(`state GET ${key} failed (${res.status})`);
     const text = await res.text();
-    return text ? JSON.parse(text) : fallback;
+    return text ? parseLoose(text) : fallback;
   }
   try {
-    return JSON.parse(await readFile(join(LOCAL_DIR, `${key}.json`), 'utf8'));
+    return parseLoose(await readFile(join(LOCAL_DIR, `${key}.json`), 'utf8'));
   } catch {
     return fallback;
+  }
+}
+
+// JSON for structured state (memory, bodyweight, hevy); raw text for values
+// seeded as plain text (the profile, e.g. via `wrangler kv key put`).
+function parseLoose(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
   }
 }
 

@@ -3,8 +3,10 @@ name: Daily coach check-in
 on:
   schedule:
     # GitHub cron is ALWAYS UTC and can fire 5-30 min late.
-    # 13:30 UTC = 10:30 in UTC-3 — comfortably after a morning workout.
-    - cron: "30 13 * * *"
+    # 10:00 UTC = 11:00 UK during BST (summer). Weekdays only (Mon-Fri),
+    # after the morning workout. In winter (GMT) this lands at 10:00 local —
+    # nudge to "0 11 * * 1-5" if you want a steady 11:00 year-round.
+    - cron: "0 10 * * 1-5"
   workflow_dispatch: {}
 
 # Avoid overlapping runs racing on shared state.
