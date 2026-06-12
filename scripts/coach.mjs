@@ -117,10 +117,14 @@ async function hevyGet(path) {
 }
 
 async function fetchEventsSince(since) {
+  // Quirk: Hevy returns {events:[...]} when there are new events, but
+  // {workouts:[]} (different key, no `events`) when there are none — so
+  // default to an empty array rather than assuming `events` exists.
   const first = await hevyGet(`/workouts/events?since=${encodeURIComponent(since)}&page=1&pageSize=10`);
-  const events = [...first.events];
-  for (let page = 2; page <= first.page_count; page++) {
-    events.push(...(await hevyGet(`/workouts/events?since=${encodeURIComponent(since)}&page=${page}&pageSize=10`)).events);
+  const events = [...(first.events ?? [])];
+  for (let page = 2; page <= (first.page_count ?? 1); page++) {
+    const next = await hevyGet(`/workouts/events?since=${encodeURIComponent(since)}&page=${page}&pageSize=10`);
+    events.push(...(next.events ?? []));
   }
   return events;
 }
