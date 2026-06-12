@@ -1,6 +1,7 @@
 node_modules/
 .wrangler/
 .dev.vars
+.local-state/
 my-profile.md
 *.log
 .DS_Store

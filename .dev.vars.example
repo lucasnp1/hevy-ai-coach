@@ -1,6 +1,4 @@
-# Copy to .dev.vars for local `wrangler dev`. NEVER commit .dev.vars.
-ANTHROPIC_API_KEY = "sk-ant-..."
-HEVY_API_KEY = "your-hevy-api-key"            # hevy.com/settings?developer (Hevy Pro)
-TELEGRAM_BOT_TOKEN = "123456:ABC-..."          # from @BotFather
+# Copy to .dev.vars for local `wrangler dev` of the Worker. NEVER commit .dev.vars.
 TELEGRAM_WEBHOOK_SECRET = "random-hex-string"  # openssl rand -hex 32
 CRON_SECRET = "another-random-hex-string"      # openssl rand -hex 32
+GITHUB_TOKEN = "ghp_..."                        # token with `repo` scope, to trigger the chat workflow

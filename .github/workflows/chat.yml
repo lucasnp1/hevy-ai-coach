@@ -1,19 +1,17 @@
-name: Daily coach check-in
+name: Coach chat reply
 
+# Fired by the Cloudflare Worker (via repository_dispatch) whenever you send
+# the bot a Telegram message.
 on:
-  schedule:
-    # GitHub cron is ALWAYS UTC and can fire 5-30 min late.
-    # 13:30 UTC = 10:30 in UTC-3 — comfortably after a morning workout.
-    - cron: "30 13 * * *"
-  workflow_dispatch: {}
+  repository_dispatch:
+    types: [telegram-message]
 
-# Avoid overlapping runs racing on shared state.
 concurrency:
   group: coach
   cancel-in-progress: false
 
 jobs:
-  checkin:
+  reply:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,15 +19,15 @@ jobs:
         with:
           node-version: "20"
       - run: npm install -g @anthropic-ai/claude-code
-      - name: Coach today's workout
+      - name: Reply to the message
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           HEVY_API_KEY: ${{ secrets.HEVY_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           WORKER_URL: ${{ secrets.WORKER_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL || 'claude-sonnet-4-6' }}
           USER_TIMEZONE: ${{ vars.USER_TIMEZONE || 'America/Sao_Paulo' }}
-          REST_DAY_MESSAGES: ${{ vars.REST_DAY_MESSAGES || 'false' }}
-        run: node scripts/coach.mjs daily
+          CHAT_TEXT: ${{ github.event.client_payload.text }}
+          CHAT_ID: ${{ github.event.client_payload.chat_id }}
+        run: node scripts/coach.mjs chat

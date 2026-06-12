@@ -9,10 +9,10 @@
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
     "test": "vitest run",
+    "coach": "node scripts/coach.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
     "hono": "^4.6.0"
   },
   "devDependencies": {
