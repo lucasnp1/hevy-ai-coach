@@ -1,0 +1,18 @@
+name: Daily coach check-in
+
+on:
+  schedule:
+    # GitHub cron is ALWAYS UTC and can fire 5-30 min late.
+    # 13:30 UTC = 10:30 in UTC-3 — comfortably after a morning workout.
+    - cron: "30 13 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the coach's /daily endpoint
+        run: |
+          curl --fail-with-body -sS -X POST "${{ secrets.WORKER_URL }}/daily" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            --max-time 120

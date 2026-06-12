@@ -1,0 +1,33 @@
+name = "hevy-ai-coach"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+
+# Import the coach persona markdown as a text module
+rules = [
+  { type = "Text", globs = ["**/*.md"], fallthrough = true }
+]
+
+kv_namespaces = [
+  { binding = "COACH_KV", id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID" }
+]
+
+[vars]
+# Your numeric Telegram user ID (get it from @userinfobot). The privacy gate:
+# only this user can talk to the bot.
+ALLOWED_TELEGRAM_USER_ID = "0"
+# Chat the daily check-in is sent to. For a personal DM bot this is the same
+# as your user ID.
+TELEGRAM_CHAT_ID = "0"
+# Any Claude model id. claude-haiku-4-5 is ~3x cheaper if you want it.
+CLAUDE_MODEL = "claude-sonnet-4-6"
+# IANA timezone, used so the coach knows what "today" means for you.
+USER_TIMEZONE = "America/Sao_Paulo"
+# Set to "true" to get a short check-in message on days with no logged workout.
+REST_DAY_MESSAGES = "false"
+
+# Secrets (set with `npx wrangler secret put <NAME>`, never in this file):
+#   ANTHROPIC_API_KEY        console.anthropic.com
+#   HEVY_API_KEY             hevy.com/settings?developer (requires Hevy Pro)
+#   TELEGRAM_BOT_TOKEN       from @BotFather
+#   TELEGRAM_WEBHOOK_SECRET  openssl rand -hex 32
+#   CRON_SECRET              openssl rand -hex 32
